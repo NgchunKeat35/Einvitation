@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&display=swap');
+
+:root {
+  --bg-paper: #fdfaf5;     /* 暖象牙色/宣纸白 */
+  --red-dark: #b51e1e;     /* 喜红色 */
+  --ink: #3d2626;          /* 深茶色文字 */
+  --gold: #b8902a;         /* 金色 */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Noto Serif SC", "STSong", "SimSun", serif;
+  background-color: #1a1a1a; /* 桌面端两侧暗色 */
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* 模拟手机屏幕宽度，并加入纸张噪点纹理 */
+#root {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--bg-paper);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+/* ========================================================
+   邀请函专属排版 (图1信息融入图2风格)
+======================================================== */
+
+/* 左右分栏的新人容器 */
+.invite-couple-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 340px;
+  margin: 20px auto 30px auto;
+  padding: 0 10px;
+}
+
+/* 单独一方的信息 */
+.invite-person {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 新郎/新娘英文标签 */
+.invite-label {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+/* 新人名字 */
+.invite-name {
+  font-size: 24px;
+  color: var(--red-dark);
+  font-weight: 600;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+
+/* 父母名字 (小字排版，高贵感) */
+.invite-parents {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.8;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* 中间的囍字印章 */
+.invite-center-xi {
+  font-size: 36px;
+  color: var(--red-dark);
+  font-weight: bold;
+  opacity: 0.8;
+  margin: 0 15px;
+  transform: translateY(-10px); /* 稍微往上提一点 */
+}
+
+/* 邀请语 */
+.invite-invite-text {
+  margin-bottom: 35px;
+  font-size: 16px;
+  line-height: 2.2;
+  letter-spacing: 2px;
+  color: var(--ink);
+}
+
+/* 日期与详情区 */
+.invite-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px dashed rgba(181, 30, 30, 0.2);
+  padding-top: 25px;
+  width: 90%;
+  max-width: 300px;
+}
+
+/* 大号公历日期 */
+.invite-date-large {
+  font-family: "Georgia", serif;
+  font-size: 28px;
+  color: var(--red-dark);
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+/* 星期与农历小字 */
+.invite-date-small {
+  font-size: 12px;
+  color: #777;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
