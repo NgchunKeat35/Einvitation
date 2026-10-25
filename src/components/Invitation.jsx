@@ -2,35 +2,35 @@ export default function Invitation() {
   const redColor = 'var(--red-dark)'; 
   const blackColor = '#000000';       
 
-  // 1. 新郎/新娘标签（字号加大到18px，字距加宽）
+  // 1. 新郎/新娘标签 (2个字，放大到 20px)
   const primaryLabelStyle = {
     color: redColor,
-    fontSize: '18px',      
+    fontSize: '20px',      
     fontWeight: 'bold',    
     marginBottom: '12px',
-    letterSpacing: '4px'   // 字距拉开，更有气势
+    letterSpacing: '4px'   
   };
 
-  // 2. 男方母亲/女方父母标签（保持15px，视觉上退居二线）
+  // 2. 男方母亲/女方父母标签 (4个字，缩小到 17px，比上面小2-3px)
   const parentLabelStyle = {
     color: redColor,
-    fontSize: '20px',
-    fontWeight: '600',
+    fontSize: '17px',      
+    fontWeight: 'bold',
     marginBottom: '10px',
     letterSpacing: '1px'
   };
 
-  // 3. 新人名字（大字）
+  // 3. 新人名字
   const groomBrideName = {
     color: blackColor, 
     fontSize: '22px', 
     letterSpacing: '2px', 
     fontWeight: 'normal', 
     textAlign: 'center', 
-    marginBottom: '25px' // 稍微加大底部间距，透气
+    marginBottom: '25px' 
   };
 
-  // 4. 父母名字（稍小，单行不折断）
+  // 4. 父母名字
   const parentName = {
     color: blackColor, 
     fontSize: '18px', 
@@ -48,7 +48,6 @@ export default function Invitation() {
         
         {/* 新郎家 */}
         <div className="invite-person" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {/* 使用加大加宽的主标签样式 */}
           <div style={primaryLabelStyle}>新郎</div>
           <div style={groomBrideName}>黄俊雄</div>
           
@@ -65,7 +64,6 @@ export default function Invitation() {
 
         {/* 新娘家 */}
         <div className="invite-person" style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {/* 使用加大加宽的主标签样式 */}
           <div style={primaryLabelStyle}>新娘</div>
           <div style={groomBrideName}>冯凯婷</div>
           

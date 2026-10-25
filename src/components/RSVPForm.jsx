@@ -81,7 +81,6 @@ export default function RSVPForm() {
                 <option value="">请选择</option>
                 <option value="出席">我会出席</option>
                 <option value="不出席">无法出席</option>
-                <option value="不确定">还不确定</option>
               </select>
             </div>
 
