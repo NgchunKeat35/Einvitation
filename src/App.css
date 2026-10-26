@@ -199,9 +199,9 @@
 /* 拉宽的地址框 */
 .schedule-address {
   margin-top: 10px;
-  background: rgba(253, 250, 245, 0.9); 
-  padding: 12px 15px;
-  border-radius: 4px;
+  background: transparent; /* 改为透明，和背景色一致 */
+  padding: 12px 0 12px 15px; /* 去掉右侧内边距，保留左侧缩进 */
+  border-radius: 0;
   border-left: 3px solid var(--red-dark);
   line-height: 1.6;
   
@@ -217,4 +217,62 @@
   display: block;
   margin-bottom: 4px;
   font-weight: bold;
+}
+/* ========================================================
+   5. 底部弹出表单 (Modal)
+======================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end; /* 靠底对齐 */
+  justify-content: center;
+  z-index: 999999; /* 确保层级绝对最高 */
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: var(--bg-paper);
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh; /* 限制最高只能占 85% 屏幕 */
+  overflow-y: auto; /* 内容多的时候可以滑动 */
+  border-radius: 20px 20px 0 0;
+  padding: 30px 20px;
+  position: relative;
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px; right: 20px;
+  font-size: 26px;
+  color: #999;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 5px;
+  line-height: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* 完全隐藏滚动条，但保留滚动功能 */
+.modal-content::-webkit-scrollbar {
+  display: none; /* 隐藏 Chrome/Safari 的滚动条 */
+}
+.modal-content {
+  -ms-overflow-style: none; /* 隐藏 IE/Edge 的滚动条 */
+  scrollbar-width: none; /* 隐藏 Firefox 的滚动条 */
 }

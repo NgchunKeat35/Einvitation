@@ -16,7 +16,7 @@ export default function Cover({ onOpen }) {
   const handlePointerMove = (e) => {
     if (!isDragging || isPulled) return
     const deltaY = e.clientY - startY.current
-    if (deltaY < 0) setDragY(deltaY)
+    if (deltaY < 0) setDragY(deltaY) // 只允许向上滑
   }
 
   const handlePointerUp = (e) => {
@@ -24,12 +24,16 @@ export default function Cover({ onOpen }) {
     setIsDragging(false)
     e.currentTarget.releasePointerCapture(e.pointerId)
 
-    if (dragY < -80) {
+    // ==========================================
+    // 核心修改：把 -80 改成 -250 (或 -300)
+    // 必须往上拉动超过 250px 才会触发打开
+    // ==========================================
+    if (dragY < -300) {
       setIsPulled(true)
       setDragY(0)
-      // 核心修复：直接同步触发，给浏览器“手势有效”的信号
       onOpen() 
     } else {
+      // 如果没拉够，瞬间弹回原位
       setDragY(0)
     }
   }

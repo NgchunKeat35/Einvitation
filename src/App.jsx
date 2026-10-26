@@ -134,7 +134,7 @@ export default function App() {
           <RSVPForm />
           
           <footer style={{ padding: '30px', textAlign: 'center', color: '#999', fontSize: '12px' }}>
-            Steven & Charis· 致敬
+            Steven & Charis· 敬邀
           </footer>
         </main>
       )}
