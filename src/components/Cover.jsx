@@ -24,7 +24,7 @@ export default function Cover({ onOpen }) {
     setIsDragging(false)
     e.currentTarget.releasePointerCapture(e.pointerId)
 
-    if (dragY < -200) { // 稍微调高了触发阈值，手感更好
+    if (dragY < -100) { // 稍微调高了触发阈值，手感更好
       setIsPulled(true)
       setDragY(0)
       onOpen() 
