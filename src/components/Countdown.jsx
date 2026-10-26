@@ -35,19 +35,17 @@ export default function Countdown() {
           <div>{time.seconds}<small>秒</small></div>
         </div>
       ) : (
-        <p className="text">婚礼已举行，感谢您的祝福！</p>
+        <p style={{ color: '#666', marginBottom: '10px' }}>婚礼已举行，感谢您的祝福！</p>
       )}
 
-      {/* 倒计时下方的照片3 (使用拍立得样式) */}
-        <div className="polaroid-section" style={{ padding: 0 }}>
-          <div className="polaroid-frame" style={{ width: '80%', maxWidth: '280px' }}> 
-            <div className="polaroid-inner">
-              <img src={photo3} alt="倒计时照片" />
-            </div>
-            <div className="polaroid-stamp">囍</div>
+      <div className="polaroid-section" style={{ padding: 0 }}>
+        <div className="polaroid-frame" style={{ width: '80%', maxWidth: '280px' }}> 
+          <div className="polaroid-inner">
+            <img src={photo3} alt="倒计时照片" />
           </div>
+          <div className="polaroid-stamp">囍</div>
         </div>
-
+      </div>
     </section>
   )
 }

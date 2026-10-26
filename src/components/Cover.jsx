@@ -1,75 +1,102 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 export default function Cover({ onOpen }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isFading, setIsFading] = useState(false)
+  const [dragY, setDragY] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [isPulled, setIsPulled] = useState(false)
+  const startY = useRef(0)
 
-  const handleOpenClick = () => {
-    // 1. 触发翻书动画（CSS 里是 1.5 秒）
-    setIsOpen(true)
-    
-    // 2. 核心修改：这里的数字控制翻开后“停留”的时间（单位是毫秒，1000 = 1秒）
-    setTimeout(() => {
-      // 触发淡出动画
-      setIsFading(true)
-      
-      // 3. 等待淡出动画结束（1秒），再彻底进入主页面
-      setTimeout(() => { onOpen() }, 1000)
-      
-    }, 3500) // 
+  const handlePointerDown = (e) => {
+    if (isPulled) return
+    setIsDragging(true)
+    startY.current = e.clientY
+    e.currentTarget.setPointerCapture(e.pointerId)
   }
 
+  const handlePointerMove = (e) => {
+    if (!isDragging || isPulled) return
+    const deltaY = e.clientY - startY.current
+    if (deltaY < 0) setDragY(deltaY)
+  }
+
+  const handlePointerUp = (e) => {
+    if (!isDragging || isPulled) return
+    setIsDragging(false)
+    e.currentTarget.releasePointerCapture(e.pointerId)
+
+    if (dragY < -80) {
+      setIsPulled(true)
+      setDragY(0)
+      // 核心修复：直接同步触发，给浏览器“手势有效”的信号
+      onOpen() 
+    } else {
+      setDragY(0)
+    }
+  }
+
+  const sleeveStyle = isPulled
+    ? { transform: 'translateY(-150vh)', transition: 'transform 0.6s cubic-bezier(0.6, 0.05, 0.9, 0.4)' }
+    : {
+        transform: `translateY(${dragY}px)`,
+        transition: isDragging ? 'none' : 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      }
+
   return (
-    <div className={`cover-stage ${isFading ? 'fading' : ''}`}>
-      <div className="shell">
-        <div className={`container ${isOpen ? 'opened' : 'floating'}`}>
-          
-          <div className="box box-inner">
-            <div className="inner-content">
-              <div className="inner-line"></div>
-              <p>有生之年 欣喜相逢</p>
-              <p>佳期已定 敬备喜筵</p>
-              <p>诚邀您携家人参加我们的婚礼</p>
-              <div className="inner-line"></div>
-            </div>
+    <div style={{
+      position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', 
+      width: '100%', maxWidth: '480px', height: '100vh',
+      backgroundColor: '#F5F5DC', zIndex: 99999, 
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      overflow: 'hidden'
+    }}>
+      
+      <div style={{
+        position: 'relative', width: '85vw', maxWidth: '320px', height: '70vh', maxHeight: '540px',
+        borderRadius: '6px', boxShadow: '0 15px 35px rgba(0,0,0,0.2)', overflow: 'hidden'
+      }}>
+        
+        <div
+          style={{
+            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+            backgroundColor: '#6a0000', cursor: isPulled ? 'default' : 'grab',
+            touchAction: 'none', userSelect: 'none', ...sleeveStyle
+          }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+        >
+          <div style={{
+            position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)', 
+            width: '100%', height: '140px', backgroundColor: '#fdfaf5', 
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.2)', zIndex: 10
+          }}>
+            <div style={{
+              color: '#6a0000', fontSize: '56px', lineHeight: 1,
+              fontFamily: 'STKaiti, KaiTi, serif', fontWeight: 'bold', marginBottom: '8px'
+            }}>囍</div>
+            <div style={{
+              color: '#6a0000', fontFamily: 'Helvetica Neue, Arial, sans-serif',
+              fontSize: '10px', letterSpacing: '4px', marginLeft: '4px'
+            }}>WEDDING INVITATION</div>
           </div>
 
-          <div className={`box box-cover ${isOpen ? 'open' : ''}`}>
-            <div className="cover-front">
-              <div className="cover-en">WEDDING INVITATION</div>
-              
-              <div className="xi">囍</div>
-              
-              <div className="names">
-                <span>黄俊雄</span>
-                <span className="amp">&</span>
-                <span>冯凯婷</span>
-              </div>
-              
-              <div className="cover-parents-box">
-                <div className="parent-column">
-                  <span className="parent-label">男方母亲</span>
-                  <span className="parent-name">余月珠</span>
-                </div>
-                <div className="parent-column">
-                  <span className="parent-label">女方父母</span>
-                  <span className="parent-name">冯文旭<br/>伍淑芬</span>
-                </div>
-              </div>
+          {!isPulled && (
+            <div style={{
+              position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)',
+              width: '80px', height: '40px', backgroundColor: '#fdfaf5', borderRadius: '40px 40px 0 0',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              color: '#6a0000', pointerEvents: 'none', zIndex: 10
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: '4px' }}>
+                <path d="M18 15l-6-6-6 6"/>
+              </svg>
+              <span style={{ fontSize: '10px', letterSpacing: '1px', marginTop: '2px', fontWeight: 'bold' }}>
+                向上抽取
+              </span>
             </div>
-            
-            <div className="cover-back"></div>
-            
-            {!isOpen && (
-              <div className="cover-btn" onClick={handleOpenClick}>
-                <span>点击开启请柬</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                  <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
-                </svg>
-              </div>
-            )}
-          </div>
-
+          )}
         </div>
       </div>
     </div>
