@@ -13,6 +13,7 @@ import photo1 from './assets/photo1.jpeg'
 export default function App() {
   const [opened, setOpened] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [showToast, setShowToast] = useState(false) 
 
   // 花瓣特效
   useEffect(() => {
@@ -58,8 +59,13 @@ export default function App() {
     const bgm = document.getElementById('bgm')
     if (bgm) {
       bgm.play()
-         .then(() => setIsPlaying(true))
-         .catch(() => setIsPlaying(false))
+         .then(() => {
+           setIsPlaying(true)
+         })
+         .catch((err) => {
+           setIsPlaying(false)
+           setShowToast(true) 
+         })
     }
     setOpened(true)
     window.scrollTo({ top: 0 })
@@ -74,7 +80,10 @@ export default function App() {
         setIsPlaying(false); 
       } else { 
         bgm.play()
-           .then(() => setIsPlaying(true))
+           .then(() => {
+             setIsPlaying(true)
+             setShowToast(false) 
+           })
            .catch((err) => console.error("播放失败", err)); 
       }
     }
@@ -89,6 +98,18 @@ export default function App() {
       ) : (
         <main style={{ position: 'relative', width: '100%', minHeight: '100vh' }}>
           
+          {showToast && (
+            <div style={{
+              position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
+              background: 'rgba(0, 0, 0, 0.7)', color: '#fff', padding: '10px 20px',
+              borderRadius: '20px', fontSize: '13px', zIndex: 9999,
+              animation: 'fadeIn 0.3s ease', pointerEvents: 'none',
+              whiteSpace: 'nowrap'
+            }}>
+              🎵 请点击左下角按钮开启音乐
+            </div>
+          )}
+
           <div onClick={toggleMusic} className="music-toggle-btn">
             {isPlaying ? (
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
@@ -103,11 +124,8 @@ export default function App() {
 
           <Invitation />
           <Countdown />
-          
-          {/* 1. 婚礼行程 (纯文字与地址) */}
           <WeddingInfo />
           
-          {/* 2. 合影照片 */}
           <div className="polaroid-section" style={{ marginTop: '10px', marginBottom: '15px' }}>
             <div className="polaroid-frame">
               <div className="polaroid-inner">
@@ -117,7 +135,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* 3. 地图与导航按钮 (挪到了照片下面) */}
           <div style={{ display: 'flex', gap: 15, justifyContent: 'center', flexWrap: 'wrap', marginBottom: '30px' }}>
             <a className="btn" href="https://maps.app.goo.gl/Q2tfhgHxtU4oqpz1A" target="_blank" rel="noreferrer">
               查看地图
@@ -127,14 +144,12 @@ export default function App() {
             </a>
           </div>
 
-          {/* 4. 温馨提示 */}
           <Notice />
-          
-          {/* 5. RSVP表单 */}
           <RSVPForm />
           
-          <footer style={{ padding: '30px', textAlign: 'center', color: '#999', fontSize: '12px' }}>
-            Steven & Charis· 敬邀
+          {/* 修改了这里的文字 */}
+          <footer style={{ padding: '40px 20px', textAlign: 'center', color: '#999', fontSize: '13px', letterSpacing: '2px' }}>
+            Steven & Charis · 敬邀
           </footer>
         </main>
       )}

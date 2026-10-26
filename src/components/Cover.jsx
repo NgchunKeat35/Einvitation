@@ -16,7 +16,7 @@ export default function Cover({ onOpen }) {
   const handlePointerMove = (e) => {
     if (!isDragging || isPulled) return
     const deltaY = e.clientY - startY.current
-    if (deltaY < 0) setDragY(deltaY) // 只允许向上滑
+    if (deltaY < 0) setDragY(deltaY) 
   }
 
   const handlePointerUp = (e) => {
@@ -24,16 +24,11 @@ export default function Cover({ onOpen }) {
     setIsDragging(false)
     e.currentTarget.releasePointerCapture(e.pointerId)
 
-    // ==========================================
-    // 核心修改：把 -80 改成 -250 (或 -300)
-    // 必须往上拉动超过 250px 才会触发打开
-    // ==========================================
-    if (dragY < -300) {
+    if (dragY < -200) { // 稍微调高了触发阈值，手感更好
       setIsPulled(true)
       setDragY(0)
       onOpen() 
     } else {
-      // 如果没拉够，瞬间弹回原位
       setDragY(0)
     }
   }
@@ -48,15 +43,22 @@ export default function Cover({ onOpen }) {
   return (
     <div style={{
       position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)', 
-      width: '100%', maxWidth: '480px', height: '100vh',
+      width: '100%', maxWidth: '480px', height: '100dvh',
       backgroundColor: '#F5F5DC', zIndex: 99999, 
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       overflow: 'hidden'
     }}>
       
+      {/* ===== 核心修改：把 maxWidth 改为 380px，maxHeight 改为 600px ===== */}
       <div style={{
-        position: 'relative', width: '85vw', maxWidth: '320px', height: '70vh', maxHeight: '540px',
-        borderRadius: '6px', boxShadow: '0 15px 35px rgba(0,0,0,0.2)', overflow: 'hidden'
+        position: 'relative', 
+        width: '85vw', 
+        maxWidth: '380px', 
+        height: '72vh', 
+        maxHeight: '600px', 
+        borderRadius: '6px', 
+        boxShadow: '0 15px 35px rgba(0,0,0,0.2)', 
+        overflow: 'hidden'
       }}>
         
         <div

@@ -4,7 +4,7 @@ export default function Invitation() {
 
   return (
     <section className="section">
-      <div className="title">「 诚恳邀请 」</div>
+      <div className="title"> 诚恳邀请 </div>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%', maxWidth: '340px', margin: '20px auto' }}>
         

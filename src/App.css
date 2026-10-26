@@ -13,6 +13,7 @@
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1s ease, transform 1s ease;
+  min-height: auto; 
 }
 .section.show { opacity: 1; transform: translateY(0); }
 
@@ -56,19 +57,32 @@
 
 .gold-line { display: none; }
 
+/* 基础按钮 */
+.btn {
+  padding: 10px 24px; border: 1px solid var(--red-dark);
+  background: transparent; color: var(--red-dark);
+  border-radius: 0; font-size: 14px; letter-spacing: 2px;
+  cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block;
+}
+.btn:hover { background: var(--red-dark); color: #fff; }
+
+
 /* ========================================================
    2. 各个组件的专属样式
 ======================================================== */
+/* 倒计时 */
 .countdown { display: flex; gap: 15px; justify-content: center; align-items: baseline; margin-bottom: 10px; }
 .countdown div { color: var(--red-dark); font-size: 26px; font-weight: 600; }
 .countdown small { font-size: 13px; margin-left: 2px; color: #666; }
 
+/* 注意事项 */
 .minimal-icon { width: 48px; height: 48px; color: var(--red-dark); margin: 0 auto 10px auto; opacity: 0.8; }
 .notice-minimal-text { font-size: 14px; line-height: 2.4; color: #444; letter-spacing: 1px; text-align: center; max-width: 90%; margin: 0 auto; }
 .notice-minimal-text p { margin-bottom: 12px; }
 .notice-minimal-text strong { color: var(--red-dark); font-weight: 600; }
 .minimal-decor-bottom { margin-top: 20px; color: #f8d7da; font-size: 20px; opacity: 0.8; }
 
+/* 表单基础 */
 .form-item { margin-bottom: 22px; text-align: left; }
 .form-item label { display: block; font-size: 13px; color: #666; margin-bottom: 8px; letter-spacing: 1px; }
 .form-item input, .form-item select, .form-item textarea {
@@ -79,6 +93,7 @@
 .form-item.checkbox { display: flex; gap: 8px; align-items: flex-start; }
 .form-item.checkbox input { width: auto; margin-top: 4px; }
 
+/* RSVP 表单专属按钮 */
 .custom-btn-cancel, .custom-btn-confirm {
   flex: 1; padding: 10px 0; border: 1px solid var(--red-dark) !important; 
   background: transparent !important; color: var(--red-dark) !important;  
@@ -89,31 +104,27 @@
   background: var(--red-dark) !important; color: #ffffff !important; border-color: var(--red-dark) !important; 
 }
 
-/* 基础按钮 */
-.btn {
-  padding: 10px 24px; border: 1px solid var(--red-dark);
-  background: transparent; color: var(--red-dark);
-  border-radius: 0; font-size: 14px; letter-spacing: 2px;
-  cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block;
-}
-.btn:hover { background: var(--red-dark); color: #fff; }
 
 /* ========================================================
    3. 特效与背景
 ======================================================== */
+/* 花瓣特效 */
 .petals { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; height: 100vh; pointer-events: none; z-index: 10; overflow: hidden; }
 .petal { position: absolute; top: -10vh; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
 @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
+/* 水墨背景 */
 .ink-image-bg { position: absolute; top: -10px; right: -40px; width: 320px; opacity: 0.18; z-index: 0; pointer-events: none; mix-blend-mode: multiply; }
 .ink-image-bg img { width: 100%; height: auto; display: block; }
 
+/* 拍立得照片 */
 .polaroid-section { padding: 10px 30px; display: flex; justify-content: center; overflow: visible; position: relative; z-index: 10; }
 .polaroid-frame { position: relative; width: 85%; max-width: 240px; background: #fff; padding: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); transform: rotate(3deg); box-sizing: border-box; margin: 0; }
 .polaroid-inner { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border: 1px solid var(--red-dark); background-color: #eee; }
 .polaroid-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .polaroid-stamp { position: absolute; bottom: -15px; right: -15px; width: 44px; height: 44px; background: var(--red-dark); color: #f6e6b4; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 22px; font-family: "STKaiti", "KaiTi", serif; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
+/* 悬浮音乐开关 */
 .music-toggle-btn {
   position: fixed; bottom: 30px; left: 20px; width: 40px; height: 40px;
   border-radius: 50%; background: rgba(181, 30, 30, 0.85); color: #fff;
@@ -122,6 +133,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(4px); transition: all 0.3s ease;
 }
 .music-toggle-btn:hover { background: rgba(181, 30, 30, 1); transform: scale(1.1); }
+
 
 /* ========================================================
    4. 婚礼行程时间轴
@@ -157,12 +169,11 @@
   position: absolute;
   right: 0;
   top: 5px;
-  bottom: -30px;
+  bottom: -25px; /* 控制竖线向下的延伸长度 */
   width: 1px;
   background: rgba(181, 30, 30, 0.15);
 }
 
-.schedule-item:last-child .schedule-time::after { display: none; }
 
 .schedule-time::before {
   content: "";
@@ -175,7 +186,9 @@
   background: var(--red-dark);
   z-index: 1;
 }
-
+.schedule-item:last-child .schedule-time::after { 
+  display: none; 
+}
 .schedule-content {
   padding-left: 20px;
   flex: 1;
@@ -187,6 +200,9 @@
   margin-bottom: 6px;
   font-weight: bold;
   letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .schedule-content p {
@@ -196,20 +212,13 @@
   margin-bottom: 6px;
 }
 
-/* 拉宽的地址框 */
+/* ===== 彻底去掉背景的地址 ===== */
 .schedule-address {
-  margin-top: 10px;
-  background: transparent; /* 改为透明，和背景色一致 */
-  padding: 12px 0 12px 15px; /* 去掉右侧内边距，保留左侧缩进 */
+  background: transparent; 
+  padding: 0; 
   border-radius: 0;
-  border-left: 3px solid var(--red-dark);
-  line-height: 1.6;
-  
-  margin-left: -115px; 
-  width: calc(100% + 115px); 
-  box-sizing: border-box;
-  position: relative;
-  z-index: 2;
+  line-height: 1.8;
+  width: 100%;
 }
 
 .schedule-address strong {
@@ -217,6 +226,13 @@
   display: block;
   margin-bottom: 4px;
   font-weight: bold;
+  font-size: 15px;
+}
+
+.schedule-address span {
+  font-size: 14px;
+  color: #555;
+  display: block;
 }
 /* ========================================================
    5. 底部弹出表单 (Modal)
@@ -227,9 +243,9 @@
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   display: flex;
-  align-items: flex-end; /* 靠底对齐 */
+  align-items: flex-end; 
   justify-content: center;
-  z-index: 999999; /* 确保层级绝对最高 */
+  z-index: 999999; 
   animation: fadeIn 0.3s ease;
 }
 
@@ -237,14 +253,20 @@
   background: var(--bg-paper);
   width: 100%;
   max-width: 480px;
-  max-height: 85vh; /* 限制最高只能占 85% 屏幕 */
-  overflow-y: auto; /* 内容多的时候可以滑动 */
+  max-height: 85vh; 
+  overflow-y: auto; 
   border-radius: 20px 20px 0 0;
   padding: 30px 20px;
   position: relative;
   animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
 }
+
+/* 美化弹窗滚动条 */
+.modal-content::-webkit-scrollbar { width: 6px; }
+.modal-content::-webkit-scrollbar-track { background: transparent; }
+.modal-content::-webkit-scrollbar-thumb { background: rgba(181, 30, 30, 0.3); border-radius: 10px; }
+.modal-content::-webkit-scrollbar-thumb:hover { background: rgba(181, 30, 30, 0.6); }
 
 .modal-close {
   position: absolute;
@@ -266,13 +288,4 @@
 @keyframes slideUp {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
-}
-
-/* 完全隐藏滚动条，但保留滚动功能 */
-.modal-content::-webkit-scrollbar {
-  display: none; /* 隐藏 Chrome/Safari 的滚动条 */
-}
-.modal-content {
-  -ms-overflow-style: none; /* 隐藏 IE/Edge 的滚动条 */
-  scrollbar-width: none; /* 隐藏 Firefox 的滚动条 */
 }
