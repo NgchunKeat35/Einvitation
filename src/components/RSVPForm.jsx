@@ -3,17 +3,38 @@ import { createPortal } from 'react-dom'
 
 const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzY2IY1dG9YYnesUtwZFntBjgysRKCAD_r_3COAhTYEuv_k2PZAVlucU9n7KuJetQmblw/exec'
 
+// 1. 定义一个本地缓存的 Key
+const STORAGE_KEY = 'wedding_rsvp_cache'
+
 export default function RSVPForm() {
   const [isOpen, setIsOpen] = useState(false) 
-  const [isSuccess, setIsSuccess] = useState(false) // 记录是否提交成功
-  const [form, setForm] = useState({
-    name: '', phone: '', attendance: '', guests: 1, diet: '无特殊要求', otherDiet: '', message: '', notice: false,
+  const [isSuccess, setIsSuccess] = useState(false) 
+  
+  // 2. 初始化时，尝试从本地缓存读取数据
+  const [form, setForm] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) {
+        return JSON.parse(saved)
+      }
+    } catch (e) {
+      console.error("读取缓存失败", e)
+    }
+    // 如果没有缓存，使用默认空数据
+    return {
+      name: '', phone: '', attendance: '', guests: 1, diet: '无特殊要求', otherDiet: '', message: '', notice: false,
+    }
   })
+  
   const [status, setStatus] = useState('')
 
   function handleChange(e) {
     const { name, value, type, checked } = e.target
-    setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+    const newForm = { ...form, [name]: type === 'checkbox' ? checked : value }
+    
+    // 3. 每次输入，立刻把最新数据存入本地缓存
+    setForm(newForm)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newForm))
   }
 
   async function handleSubmit(e) {
@@ -30,16 +51,14 @@ export default function RSVPForm() {
       
       if (result.result === 'success') {
         setStatus('已收到您的回复，谢谢！')
-        setIsSuccess(true) // 标记为成功
+        setIsSuccess(true) 
       } else { throw new Error('提交失败') }
     } catch (err) {
       setStatus('提交失败，请稍后重试。')
     }
   }
 
-  // 生成并下载 .ics 日历文件
   const downloadCalendar = () => {
-    // 设定晚宴时间 (2027年1月14日 19:30 - 22:30)
     const startTime = "20270114T193000"
     const endTime = "20270114T223000"
     
@@ -57,7 +76,6 @@ DESCRIPTION:期待您的光临！\\n上午迎亲及敬茶仪式仅限家人参�
 END:VEVENT
 END:VCALENDAR`;
 
-    // 将内容转换为文件并触发下载
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -70,13 +88,12 @@ END:VCALENDAR`;
 
   const notAttending = form.attendance === '不出席'
 
-  // 关闭弹窗时重置状态
+  // 4. 关闭弹窗时：不清空表单数据，只关闭窗口
   const closeModal = () => {
     setIsOpen(false)
     setTimeout(() => {
       setIsSuccess(false)
       setStatus('')
-      setForm({ name: '', phone: '', attendance: '', guests: 1, diet: '无特殊要求', otherDiet: '', message: '', notice: false })
     }, 300)
   }
 
@@ -100,7 +117,6 @@ END:VCALENDAR`;
         </button>
       </div>
 
-      {/* 使用 React Portal 把弹窗直接传送到 body */}
       {isOpen && createPortal(
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -108,12 +124,12 @@ END:VCALENDAR`;
             <button className="modal-close" onClick={closeModal}>×</button>
             
             {!isSuccess ? (
-              // 表单填写状态
               <>
                 <div className="title" style={{ marginTop: 0, marginBottom: '20px' }}>出席回函</div>
                 <form onSubmit={handleSubmit}>
                   <div className="form-item">
                     <label>姓名 *</label>
+                    {/* 因为 form 已经自动读取了缓存，所以这里直接显示出来 */}
                     <input type="text" name="name" required placeholder="您的姓名" value={form.name} onChange={handleChange} />
                   </div>
                   
@@ -169,7 +185,6 @@ END:VCALENDAR`;
                 </form>
               </>
             ) : (
-              // 提交成功状态
               <div style={{ textAlign: 'center', padding: '40px 0' }}>
                 <div style={{ fontSize: '48px', color: 'var(--red-dark)', marginBottom: '20px' }}>✓</div>
                 <h3 style={{ fontSize: '22px', color: 'var(--red-dark)', marginBottom: '10px' }}>已收到您的回复</h3>

@@ -12,8 +12,9 @@ export default function Notice() {
         </svg>
       </div>
 
+      {/* 去掉了 | A Little Note */}
       <div className="title" style={{ marginTop: '10px' }}>
-        温馨提醒 <span style={{ fontSize: '14px', opacity: 0.6, fontWeight: 'normal', letterSpacing: '1px' }}></span>
+        温馨提醒
       </div>
       
       <div className="notice-minimal-text" style={{ lineHeight: '2' }}>
@@ -24,22 +25,22 @@ export default function Notice() {
         </p>
 
         <div style={{ marginBottom: '20px' }}>
-          {/* 核心修改：加了 textAlign: 'center' */}
+          {/* 换成红色的跑车 / 汽车 */}
           <div style={{ color: 'var(--red-dark)', fontWeight: 'bold', marginBottom: '8px', fontSize: '15px', textAlign: 'center' }}>
-            🚗 交通安排
+            🚘 交通安排
           </div>
-          <p style={{ fontSize: '14px', color: '#555', textAlign: 'left' }}>
+          <p style={{ fontSize: '14px', color: '#555', textAlign: 'center' }}>
             由于停车位有限，温馨建议大家尽量 Carpool（共乘）前来，减少停车不便，感谢大家的体谅与配合。
           </p>
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          {/* 核心修改：加了 textAlign: 'center' */}
+          {/* 换成红色的传统服饰 👘 */}
           <div style={{ color: 'var(--red-dark)', fontWeight: 'bold', marginBottom: '8px', fontSize: '15px', textAlign: 'center' }}>
-            👗 穿着建议
+            👘 穿着建议
           </div>
-          <p style={{ fontSize: '14px', color: '#555', textAlign: 'left' }}>
-            晚宴以轻松温馨的家庭式自助餐形式进行，没有特别的服装要求，穿得舒适、自在就好！最重要的是带着愉快的心情，与我们一起分享这份喜悦。💕
+          <p style={{ fontSize: '14px', color: '#555', textAlign: 'center' }}>
+            晚宴以轻松温馨的家庭式自助餐形式进行，没有特别的服装要求，穿得舒适、自在就好！最重要的是带着愉快的心情，与我们一起分享这份喜悦。🤍
           </p>
         </div>
 
